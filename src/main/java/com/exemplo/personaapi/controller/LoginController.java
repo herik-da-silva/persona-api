@@ -22,7 +22,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
         // TODO Simulação de login, alterar para base de dados
-        if ("herik".equals(username) && "senha123".equals(password)) {
+        if ("teste".equals(username) && "teste123".equals(password)) {
             String token = jwtService.generateToken(username, "USER");
             return ResponseEntity.ok(Map.of("token", token));
         }
