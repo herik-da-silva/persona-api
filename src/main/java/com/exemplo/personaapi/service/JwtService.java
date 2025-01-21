@@ -1,8 +1,9 @@
 package com.exemplo.personaapi.service;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -11,7 +12,16 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.secret}") // Injeta o valor da variável de ambiente
+    private String secretKeyString;
+
+    private SecretKey secretKey;
+
+    @PostConstruct
+    public void init() {
+        // Converte a string da chave secreta em um objeto SecretKey
+        this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+    }
 
     public String generateToken(String username, String role) {
         return Jwts.builder()
