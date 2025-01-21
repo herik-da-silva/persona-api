@@ -45,21 +45,31 @@ O objetivo é apresentar uma estrutura simples para autenticação e autorizaç�
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/herik-da-silva/api-basica.git
-   cd api-basica
+   git clone https://github.com/herik-da-silva/personaapi.git
+   cd personaapi
    ```
 
-2. Instale as dependências:
+2. Defina a variável de ambiente `JWT_SECRET`:
+   - No Linux, adicione a variável de ambiente no terminal antes de executar a aplicação:
+     ```bash
+     export JWT_SECRET="sua_chave_secreta_super_segura"
+     ```
+   - Você pode verificar se a variável foi configurada corretamente com:
+     ```bash
+     echo $JWT_SECRET
+     ```
+
+3. Instale as dependências:
    ```bash
    mvn clean install
    ```
 
-3. Execute a aplicação:
+4. Execute a aplicação:
    ```bash
    mvn spring-boot:run
    ```
 
-4. Acesse a API:
+5. Acesse a API:
    - URL base: `http://localhost:8080`.
 
 ---
