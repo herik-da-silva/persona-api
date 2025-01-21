@@ -18,7 +18,7 @@ public class JwtService {
                 .setSubject(username)
                 .claim("role", role) // Adiciona a role como claim
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 360000)) // 1h de validade
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1h de validade
                 .signWith(secretKey)
                 .compact();
     }
