@@ -19,6 +19,7 @@ O objetivo é apresentar uma estrutura simples para autenticação e autorizaç�
 - **Java**: versão 21.
 - **Spring Boot**: versão 3.3.4.
 - **Spring Security**: para controle de autenticação e autorização.
+- **H2 Database**: banco de dados em memória para armazenamento temporário de dados.
 - **jjwt**: criação e manutenção de JWT (JSON Web Tokens)
 - **Insomnia** (para testes de API)
 
@@ -26,11 +27,10 @@ O objetivo é apresentar uma estrutura simples para autenticação e autorizaç�
 
 ## 🛠️ Funcionalidades
 
-- **Login***: Simulação de autenticação de usuário com geração de token JWT.
+- **Registro de Usuário**: Permite que novos usuários sejam registrados no sistema.
+- **Login***: Autenticação com credenciais e geração de token JWT.
 - **Validação de Token**: Validação do JWT para garantir acesso seguro aos recursos.
 - **Configuração de Segurança**: Controle de permissões com base em roles.
-
-**Observação sobre o Login***: O projeto utiliza uma simulação de login no endpoint do `LoginController`. Atualmente, as credenciais são validadas diretamente no código (hardcoded) sem o uso de um banco de dados. Em implementações futuras, recomenda-se integrar um banco de dados para validação segura de usuários e credenciais.
 
 ---
 
@@ -76,32 +76,41 @@ O objetivo é apresentar uma estrutura simples para autenticação e autorizaç�
 
 ## 📝 Testando a Aplicação
 
-Para testar a funcionalidade de login, utilize o comando `curl` abaixo ou ferramentas como Postman e Insomnia:
+1. Registro de Usuário
+   - Para registrar um novo usuário, utilize o comando `curl` abaixo ou ferramentes como Postman e Insomnia:
+   ```bash
+   curl --request POST \
+     --url http://localhost:8080/auth/register \
+     --header 'Content-Type: application/x-www-form-urlencoded' \
+     --data username=teste \
+     --data password=123
+   ```
+   Se o registro for bem-sucedido, você receberá uma resposta com status `201 Created`.
 
-```bash
-curl --request POST \
-  --url http://localhost:8080/api/login \
-  --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data username=teste \
-  --data password=teste123
-```
+2. Login de Usuário
+   - Para autenticar um usuário, utilize o comando `curl` abaixo:
+   ```bash
+   curl --request POST \
+     --url http://localhost:8080/auth/login \
+     --header 'Content-Type: application/x-www-form-urlencoded' \
+     --data username=teste \
+     --data password=123
+   ```
+   Se as credenciais forem válidas, você receberá uma resposta com um token JWT:
+   ```bash
+   {
+     "token": "<seu-token-jwt>"
+   }
+   ```
 
-Se as credenciais forem válidas, você receberá um token JWT como resposta:
-```json
-{
-  "token": "<seu-token-jwt>"
-}
-```
-
-Use o token retornado para acessar recursos protegidos na aplicação.
-
----
-
-## 🔧 Melhorias Futuras
-
-1. Integrar com um banco de dados para validação de usuários.
-2. Adicionar testes unitários para as classes principais.
-3. Expandir as permissões e roles para cenários mais complexos.
+3. Acessando Recursos Protegidos
+   - Use o token retornado para acessar endpoints protegidos. Inclua o token no cabeçalho da requisição:
+   ```bash
+   curl --request GET \
+     --url http://localhost:8080/protected/resource \
+     --header 'Authorization: Bearer <seu-token-jwt>'
+   ```
+   Se o token for válido, você terá acesso ao recurso solicitado.
 
 ---
 
